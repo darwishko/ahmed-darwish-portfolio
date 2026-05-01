@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahmed Darwish — Digital Architect</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--y:#F5E642;--y2:#FFD000;--y3:#FFF176;--black:#000;--bg:#050505;--bg2:#0A0A0A;--bg3:#111;--bg4:#181818;--border:rgba(255,255,255,0.07);--border2:rgba(245,230,66,0.25);--muted:#555;--muted2:#888;--white:#fff;}
+html{scroll-behavior:smooth;}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--white);overflow-x:hidden;cursor:none;}
+#cursor,#cursor-ring{display:none;}
+@media(pointer:fine){#cursor{display:block;position:fixed;width:12px;height:12px;background:var(--y);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;}#cursor-ring{display:block;position:fixed;width:36px;height:36px;border:1px solid rgba(245,230,66,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width 0.2s,height 0.2s;}body{cursor:none;}}
+.noise{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");}
+.scanlines{position:fixed;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.2rem 3.5rem;border-bottom:1px solid var(--border);background:rgba(5,5,5,0.92);backdrop-filter:blur(20px);}
+.nav-logo{font-family:'Space Mono',monospace;font-size:0.85rem;color:var(--y);letter-spacing:0.08em;display:flex;align-items:center;gap:0.6rem;}
+.nav-logo::before{content:'>';color:var(--y);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{color:var(--muted2);text-decoration:none;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;font-family:'Space Mono',monospace;transition:color 0.15s;}
+.nav-links a:hover{color:var(--y);}
+.nav-badge{background:var(--y);color:var(--black);padding:0.45rem 1.2rem;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;font-family:'Space Mono',monospace;transition:background 0.15s;white-space:nowrap;}
+.nav-badge:hover{background:var(--y3);}
+.nav-menu-btn{display:none;background:none;border:1px solid var(--border);color:var(--y);font-family:'Space Mono',monospace;font-size:0.75rem;padding:0.4rem 0.8rem;cursor:pointer;}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:9rem 3.5rem 5rem;position:relative;overflow:hidden;}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(245,230,66,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,230,66,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 0%,black 40%,transparent 100%);}
+.hero-glow{position:absolute;top:-200px;right:-100px;width:700px;height:700px;background:radial-gradient(circle,rgba(245,230,66,0.07) 0%,transparent 65%);pointer-events:none;}
+.hero-status{display:flex;align-items:center;gap:0.7rem;margin-bottom:2rem;}
+.status-dot{width:7px;height:7px;background:var(--y);border-radius:50%;animation:blink 1.4s infinite;flex-shrink:0;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
+.status-text{font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--muted2);letter-spacing:0.18em;text-transform:uppercase;}
+.hero-name{font-size:clamp(3.5rem,8vw,7.5rem);font-weight:700;line-height:0.92;letter-spacing:-0.03em;color:var(--white);margin-bottom:0.5rem;}
+.hero-name .accent{color:var(--y);display:block;}
+.hero-tag{font-family:'Space Mono',monospace;font-size:clamp(0.6rem,1.2vw,0.85rem);color:var(--muted2);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:2.5rem;}
+.hero-desc{max-width:560px;font-size:1.05rem;color:var(--white);line-height:1.75;margin-bottom:3.5rem;font-weight:300;}
+.hero-desc strong{color:var(--white);font-weight:500;}
+.hero-btns{display:flex;gap:1rem;margin-bottom:5rem;flex-wrap:wrap;}
+.btn-y{background:var(--y);color:var(--black);padding:0.85rem 2rem;font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;font-family:'Space Mono',monospace;transition:all 0.15s;border:none;cursor:pointer;}
+.btn-y:hover{background:var(--y3);transform:translateY(-1px);}
+.btn-ghost{background:transparent;color:var(--white);padding:0.85rem 2rem;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;font-family:'Space Mono',monospace;border:1px solid var(--border);transition:all 0.15s;}
+.btn-ghost:hover{border-color:var(--y);color:var(--y);}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);}
+.stat-box{padding:1.8rem 1.5rem;border-right:1px solid var(--border);position:relative;overflow:hidden;}
+.stat-box:last-child{border-right:none;}
+.stat-box::before{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--y);transform:scaleX(0);transform-origin:left;transition:transform 0.3s;}
+.stat-box:hover::before{transform:scaleX(1);}
+.stat-n{font-size:2.2rem;font-weight:700;color:var(--y);line-height:1;font-family:'Space Mono',monospace;}
+.stat-l{font-size:0.65rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-top:0.4rem;}
+.ticker{background:var(--y);overflow:hidden;padding:0.6rem 0;}
+.ticker-inner{display:flex;gap:0;white-space:nowrap;animation:tick 25s linear infinite;}
+@keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.ticker-item{font-family:'Space Mono',monospace;font-size:0.65rem;font-weight:700;color:var(--black);letter-spacing:0.2em;text-transform:uppercase;padding:0 2rem;}
+.ticker-sep{color:rgba(0,0,0,0.3);}
+section{padding:4rem 3.5rem;position:relative;}
+.section-label{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--y);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:0.8rem;}
+.section-label::before{content:'//';color:var(--muted);}
+.section-h{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:700;line-height:1.08;letter-spacing:-0.02em;margin-bottom:1rem;}
+#about{background:var(--bg2);}
+.about-wrap{display:grid;grid-template-columns:1fr;gap:2.5rem;margin-top:2.5rem;}
+.about-p{color:#777;font-size:0.95rem;line-height:1.9;margin-bottom:1.3rem;font-weight:300;}
+.about-p strong{color:var(--white);font-weight:500;}
+.ai-block{background:var(--black);border:1px solid var(--y);padding:1.8rem;margin-top:2rem;position:relative;}
+.ai-block::before{content:'AI_ENABLED';position:absolute;top:-0.6rem;left:1rem;background:var(--y);color:var(--black);font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.15em;padding:0.2rem 0.6rem;}
+.ai-block p{font-size:0.85rem;color:#999;line-height:1.8;}
+.ai-block p strong{color:var(--y);}
+.skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:1.5rem;}
+.skill-chip{background:var(--bg3);border:1px solid var(--border);padding:0.55rem 0.9rem;font-size:0.68rem;color:var(--muted2);letter-spacing:0.1em;text-transform:uppercase;font-family:'Space Mono',monospace;}
+#instagram{background:var(--bg);}
+.ig-counter{font-family:'Space Mono',monospace;font-size:clamp(4rem,12vw,10rem);font-weight:700;color:var(--y);line-height:0.9;margin-bottom:0.5rem;letter-spacing:-0.04em;}
+.ig-counter span{color:var(--border2);-webkit-text-stroke:1px rgba(245,230,66,0.3);}
+.ig-sub{font-size:0.8rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;font-family:'Space Mono',monospace;margin-bottom:4rem;}
+.accounts-marquee{overflow:hidden;margin-bottom:3rem;}
+.accounts-row{display:flex;gap:8px;white-space:nowrap;animation:scrollRow 30s linear infinite;margin-bottom:8px;}
+.accounts-row.rev{animation-direction:reverse;animation-duration:38s;}
+@keyframes scrollRow{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.acc-chip{background:var(--bg3);border:1px solid var(--border);padding:0.5rem 1rem;font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--muted2);white-space:nowrap;flex-shrink:0;transition:all 0.15s;text-decoration:none;display:inline-block;}
+.acc-chip:hover{border-color:var(--y);color:var(--y);}
+.acc-chip.highlight{border-color:var(--border2);color:var(--y);}
+.ig-stats-bar{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border);margin-top:2rem;}
+.ig-stat{padding:2rem;border-right:1px solid var(--border);text-align:center;}
+.ig-stat:last-child{border-right:none;}
+.ig-stat-n{font-family:'Space Mono',monospace;font-size:2rem;color:var(--y);font-weight:700;}
+.ig-stat-l{font-size:0.65rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-top:0.4rem;}
+#projects{background:var(--bg2);}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1px;background:var(--border);margin-top:4rem;}
+.proj-card{background:var(--bg2);padding:2.2rem;position:relative;overflow:hidden;transition:background 0.2s;}
+.proj-card:hover{background:var(--bg3);}
+.proj-card::after{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--y);transition:height 0.3s;}
+.proj-card:hover::after{height:100%;}
+.proj-num{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.15em;margin-bottom:1.5rem;}
+.proj-tag{display:inline-block;background:rgba(245,230,66,0.1);color:var(--y);padding:0.25rem 0.7rem;font-size:0.6rem;font-family:'Space Mono',monospace;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1rem;border:1px solid rgba(245,230,66,0.2);}
+.proj-h{font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:0.8rem;line-height:1.3;letter-spacing:-0.01em;}
+.proj-p{font-size:0.82rem;color:#666;line-height:1.8;font-weight:300;margin-bottom:1.5rem;}
+.proj-metrics{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.pm-val{font-family:'Space Mono',monospace;font-size:0.9rem;color:var(--y);font-weight:700;}
+.pm-l{font-size:0.6rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.15rem;}
+#clients{background:var(--bg3);}
+.clients-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:3px;background:rgba(255,255,255,0.15);margin-top:3rem;}
+.client-card{background:#ffffff;padding:1.6rem 1.2rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:all 0.2s;min-height:90px;gap:0.7rem;}
+.client-card:hover{background:#f5f5f5;transform:translateY(-3px);box-shadow:0 6px 24px rgba(0,0,0,0.18);}
+.client-card img{height:36px;width:auto;max-width:120px;object-fit:contain;filter:none;opacity:1;transition:all 0.2s;}
+.client-card:hover img{transform:scale(1.07);}
+.client-card span{font-family:'Space Mono',monospace;font-size:0.58rem;color:#444;letter-spacing:0.06em;text-transform:uppercase;}
+#contact{background:var(--bg2);}
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:6rem;margin-top:4rem;align-items:start;}
+.contact-p{color:#666;font-size:0.9rem;line-height:1.9;margin-bottom:2rem;font-weight:300;}
+.c-links{display:flex;flex-direction:column;gap:2px;}
+.c-link{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;background:var(--bg);border:1px solid var(--border);text-decoration:none;transition:all 0.15s;}
+.c-link:hover{border-color:var(--y);background:var(--bg3);}
+.c-link-l{display:flex;align-items:center;gap:0.8rem;}
+.c-link-icon{display:flex;align-items:center;justify-content:center;width:28px;height:28px;flex-shrink:0;}
+.c-link-icon svg{width:16px;height:16px;fill:var(--y);}
+.c-link-t{font-size:0.8rem;color:var(--white);}
+.c-link-arr{font-family:'Space Mono',monospace;font-size:0.7rem;color:var(--muted);flex-shrink:0;}
+.cf{display:flex;flex-direction:column;gap:1rem;}
+.cf-label{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.35rem;}
+.cf input,.cf textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--white);padding:0.85rem 1rem;font-family:'Space Grotesk',sans-serif;font-size:0.85rem;outline:none;transition:border-color 0.15s;resize:none;}
+.cf input:focus,.cf textarea:focus{border-color:var(--y);}
+.cf-btn{background:var(--y);color:var(--black);border:none;padding:0.9rem 2rem;font-family:'Space Mono',monospace;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;transition:background 0.15s;align-self:flex-start;}
+.cf-btn:hover{background:var(--y3);}
+footer{background:var(--black);padding:1.8rem 3.5rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);flex-wrap:wrap;gap:0.8rem;}
+.f-logo{font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--y);}
+.f-copy{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--muted);letter-spacing:0.1em;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.hero-status{animation:fadeUp 0.5s ease 0.1s both;}.hero-name{animation:fadeUp 0.5s ease 0.2s both;}.hero-tag{animation:fadeUp 0.5s ease 0.3s both;}.hero-desc{animation:fadeUp 0.5s ease 0.4s both;}.hero-btns{animation:fadeUp 0.5s ease 0.5s both;}.hero-stats{animation:fadeUp 0.5s ease 0.6s both;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:#222;}::-webkit-scrollbar-thumb:hover{background:var(--y);}
+@media(max-width:768px){nav{padding:1rem 1.5rem;}.nav-links{display:none;}.nav-badge{display:none;}.nav-menu-btn{display:block;}.nav-mobile-open .nav-links{display:flex;flex-direction:column;position:fixed;top:56px;left:0;right:0;background:rgba(5,5,5,0.98);backdrop-filter:blur(20px);padding:2rem 1.5rem;border-bottom:1px solid var(--border);gap:1.5rem;z-index:99;}.nav-mobile-open .nav-badge{display:block;margin-top:0.5rem;text-align:center;}.hero{padding:7rem 1.5rem 4rem;}.hero-stats{grid-template-columns:repeat(2,1fr);}.stat-box{padding:1.2rem 1rem;}.stat-n{font-size:1.7rem;}section{padding:3rem 1.5rem;}.about-wrap{grid-template-columns:1fr;}.ig-stats-bar{grid-template-columns:1fr;}.ig-stat{border-right:none;border-bottom:1px solid var(--border);}.ig-stat:last-child{border-bottom:none;}.proj-grid{grid-template-columns:1fr;}.clients-grid{grid-template-columns:repeat(3,1fr);}.contact-wrap{grid-template-columns:1fr;gap:3rem;}footer{padding:1.5rem;flex-direction:column;align-items:flex-start;}}
+@media(max-width:480px){.hero-btns{flex-direction:column;}.skill-grid{grid-template-columns:1fr;}}
+</style>
+<style>
+.client-card {
+  background: #fff !important;
+  padding: 1.5rem 1.2rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  transition: all 0.2s !important;
+  min-height: 90px !important;
+  gap: 0.6rem !important;
+}
+.client-card:hover {
+  background: #f5f5f5 !important;
+  transform: translateY(-2px) !important;
+}
+.client-card img {
+  height: 32px !important;
+  width: auto !important;
+  max-width: 120px !important;
+  object-fit: contain !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+.client-card span {
+  font-family: 'Space Mono', monospace !important;
+  font-size: 0.58rem !important;
+  color: #333 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+.clients-grid {
+  gap: 2px !important;
+  background: rgba(255,255,255,0.1) !important;
+}
+</style></head>
+<body>
+<div class="noise"></div><div class="scanlines"></div><div id="cursor" style="width: 6px; height: 6px; left: 1092px; top: 30px;"></div><div id="cursor-ring" style="left: 1079.55px; top: 29.658px; width: 50px; height: 50px; border-color: rgba(245, 230, 66, 0.8);"></div>
+<nav id="main-nav">
+  <div class="nav-logo">AHMED.DARWISH</div>
+  <ul class="nav-links">
+    <li><a href="#about" onclick="closeMenu()">About</a></li>
+    <li><a href="#instagram" onclick="closeMenu()">Empire</a></li>
+    <li><a href="#projects" onclick="closeMenu()">Work</a></li>
+    <li><a href="#clients" onclick="closeMenu()">Clients</a></li>
+    <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+    <li><a href="#contact" class="nav-badge" onclick="closeMenu()">[ Hire Me ]</a></li>
+  </ul>
+  <button class="nav-menu-btn" id="menu-btn" onclick="toggleMenu()">&amp;#9776; MENU</button>
+</nav>
+<section class="hero" id="home">
+  <div class="hero-grid-bg"></div><div class="hero-glow"></div>
+  <div class="hero-status"><span class="status-dot"></span><span class="status-text">Available for partnerships · Cairo, Egypt · Global</span></div>
+  <h1 class="hero-name">AHMED<span class="accent">DARWISH_</span></h1>
+  <p class="hero-tag">VP Digital Marketing · AI Operator · Social Architect · Founder</p>
+  <p class="hero-desc">I build <strong>social media empires</strong> and deploy <strong>AI at scale</strong>.<br>150+ Instagram accounts. 90M+ followers. 4B+ monthly views.<br>All organic. All engineered.</p>
+  <div class="hero-btns"><a href="#projects" class="btn-y">[ View Work ]</a><a href="#contact" class="btn-ghost">[ Let's Talk ]</a></div>
+  <div class="hero-stats">
+    <div class="stat-box"><div class="stat-n">90M+</div><div class="stat-l">Total Followers</div></div>
+    <div class="stat-box"><div class="stat-n">150+</div><div class="stat-l">IG Accounts</div></div>
+    <div class="stat-box"><div class="stat-n">4B+</div><div class="stat-l">Monthly Views</div></div>
+    <div class="stat-box"><div class="stat-n">200+</div><div class="stat-l">Team Members</div></div>
+  </div>
+</section>
+<div class="ticker"><div class="ticker-inner"><span class="ticker-item">90M FOLLOWERS <span class="ticker-sep">///</span></span><span class="ticker-item">150+ INSTAGRAM ACCOUNTS <span class="ticker-sep">///</span></span><span class="ticker-item">AI-POWERED OPERATIONS <span class="ticker-sep">///</span></span><span class="ticker-item">4B MONTHLY VIEWS <span class="ticker-sep">///</span></span><span class="ticker-item">MICROVISUALS AGENCY <span class="ticker-sep">///</span></span><span class="ticker-item">@UNIQUEGYPT <span class="ticker-sep">///</span></span><span class="ticker-item">TRIPSCOUT / @HOTEL <span class="ticker-sep">///</span></span><span class="ticker-item">CAIRO → WORLD <span class="ticker-sep">///</span></span><span class="ticker-item">90M FOLLOWERS <span class="ticker-sep">///</span></span><span class="ticker-item">150+ INSTAGRAM ACCOUNTS <span class="ticker-sep">///</span></span><span class="ticker-item">AI-POWERED OPERATIONS <span class="ticker-sep">///</span></span><span class="ticker-item">4B MONTHLY VIEWS <span class="ticker-sep">///</span></span><span class="ticker-item">MICROVISUALS AGENCY <span class="ticker-sep">///</span></span><span class="ticker-item">@UNIQUEGYPT <span class="ticker-sep">///</span></span><span class="ticker-item">TRIPSCOUT / @HOTEL <span class="ticker-sep">///</span></span><span class="ticker-item">CAIRO → WORLD <span class="ticker-sep">///</span></span></div></div>
+<section id="about">
+  <div class="section-label">About</div>
+  <h2 class="section-h">Digital Architect.<br>AI Operator.</h2>
+  <div class="about-wrap">
+    <div>
+      <p class="about-p">I'm Ahmed Darwish — VP of Digital Marketing at <strong>TripScout / @hotel</strong>, where I lead a team of 200+ people running the world's largest organic travel social network. 150+ Instagram accounts. 90 million followers. Built from zero.</p>
+      <p class="about-p">My edge: I don't just understand social media — I <strong>engineer</strong> it. I've built systems that identify emerging trends before they peak, launch accounts at precisely the right moment, and compound growth across a portfolio at a scale no one else has matched in travel.</p>
+      <p class="about-p">And I do it with AI. Machine learning, automation, and large language models are embedded across <strong>content operations, trend detection, community management, and creative production</strong> at TripScout — and at every venture I run.</p>
+      <div class="ai-block"><p><strong>AI is not a tool I use — it's infrastructure I build on.</strong> From automated content pipelines and AI-assisted trend forecasting to LLM-powered community management at scale, I've integrated AI into the core of how 200+ person teams operate daily.</p></div>
+      <div class="skill-grid"><span class="skill-chip">AI/LLM Integration</span><span class="skill-chip">Automation Systems</span><span class="skill-chip">Instagram Growth</span><span class="skill-chip">Content Strategy</span><span class="skill-chip">DMO Marketing</span><span class="skill-chip">Team Leadership</span><span class="skill-chip">UGC Production</span><span class="skill-chip">Social Commerce</span></div>
+    </div>
+  </div>
+</section>
+<section id="instagram">
+  <div class="section-label">Social Empire</div>
+  <div class="ig-counter">90<span>M+</span></div>
+  <div class="ig-sub">followers · 100% organic · 150+ accounts · built from zero</div>
+  <div class="accounts-marquee">
+    <div class="accounts-row"><a href="https://instagram.com/newyorkcity.explore" class="acc-chip highlight" target="_blank">@newyorkcity.explore</a><a href="https://instagram.com/paris.explore" class="acc-chip" target="_blank">@paris.explore</a><a href="https://instagram.com/london.explore" class="acc-chip" target="_blank">@london.explore</a><a href="https://instagram.com/dubai.explore" class="acc-chip" target="_blank">@dubai.explore</a><a href="https://instagram.com/tokyo.explore" class="acc-chip highlight" target="_blank">@tokyo.explore</a><a href="https://instagram.com/bali.explore" class="acc-chip" target="_blank">@bali.explore</a><a href="https://instagram.com/rome.explore" class="acc-chip" target="_blank">@rome.explore</a><a href="https://instagram.com/barcelona.explore" class="acc-chip" target="_blank">@barcelona.explore</a><a href="https://instagram.com/uniquegypt" class="acc-chip highlight" target="_blank">@uniquegypt</a><a href="https://instagram.com/amsterdam.explore" class="acc-chip" target="_blank">@amsterdam.explore</a><a href="https://instagram.com/sydney.explore" class="acc-chip" target="_blank">@sydney.explore</a><a href="https://instagram.com/istanbul.explore" class="acc-chip" target="_blank">@istanbul.explore</a><a href="https://instagram.com/newyorkcity.explore" class="acc-chip highlight" target="_blank">@newyorkcity.explore</a><a href="https://instagram.com/paris.explore" class="acc-chip" target="_blank">@paris.explore</a><a href="https://instagram.com/london.explore" class="acc-chip" target="_blank">@london.explore</a><a href="https://instagram.com/dubai.explore" class="acc-chip" target="_blank">@dubai.explore</a><a href="https://instagram.com/tokyo.explore" class="acc-chip highlight" target="_blank">@tokyo.explore</a><a href="https://instagram.com/bali.explore" class="acc-chip" target="_blank">@bali.explore</a><a href="https://instagram.com/rome.explore" class="acc-chip" target="_blank">@rome.explore</a><a href="https://instagram.com/barcelona.explore" class="acc-chip" target="_blank">@barcelona.explore</a><a href="https://instagram.com/uniquegypt" class="acc-chip highlight" target="_blank">@uniquegypt</a><a href="https://instagram.com/amsterdam.explore" class="acc-chip" target="_blank">@amsterdam.explore</a><a href="https://instagram.com/sydney.explore" class="acc-chip" target="_blank">@sydney.explore</a><a href="https://instagram.com/istanbul.explore" class="acc-chip" target="_blank">@istanbul.explore</a></div>
+    <div class="accounts-row rev"><a href="https://instagram.com/santorini.explore" class="acc-chip" target="_blank">@santorini.explore</a><a href="https://instagram.com/discover.hotels" class="acc-chip highlight" target="_blank">@discover.hotels</a><a href="https://instagram.com/outdoor" class="acc-chip" target="_blank">@outdoor</a><a href="https://instagram.com/best_airbnb" class="acc-chip" target="_blank">@best_airbnb</a><a href="https://instagram.com/feelingofluxury" class="acc-chip highlight" target="_blank">@feelingofluxury</a><a href="https://instagram.com/nationalparksGram" class="acc-chip" target="_blank">@nationalparksGram</a><a href="https://instagram.com/welivestoexplore" class="acc-chip" target="_blank">@welivestoexplore</a><a href="https://instagram.com/maldives.explore" class="acc-chip" target="_blank">@maldives.explore</a><a href="https://instagram.com/tripscout" class="acc-chip highlight" target="_blank">@tripscout</a><a href="https://instagram.com/deserted.places" class="acc-chip" target="_blank">@deserted.places</a><a href="https://instagram.com/creativetravelcouples" class="acc-chip" target="_blank">@creativetravelcouples</a><a href="https://instagram.com/miami.explore" class="acc-chip" target="_blank">@miami.explore</a><a href="https://instagram.com/santorini.explore" class="acc-chip" target="_blank">@santorini.explore</a><a href="https://instagram.com/discover.hotels" class="acc-chip highlight" target="_blank">@discover.hotels</a><a href="https://instagram.com/outdoor" class="acc-chip" target="_blank">@outdoor</a><a href="https://instagram.com/best_airbnb" class="acc-chip" target="_blank">@best_airbnb</a><a href="https://instagram.com/feelingofluxury" class="acc-chip highlight" target="_blank">@feelingofluxury</a><a href="https://instagram.com/nationalparksGram" class="acc-chip" target="_blank">@nationalparksGram</a><a href="https://instagram.com/welivestoexplore" class="acc-chip" target="_blank">@welivestoexplore</a><a href="https://instagram.com/maldives.explore" class="acc-chip" target="_blank">@maldives.explore</a><a href="https://instagram.com/tripscout" class="acc-chip highlight" target="_blank">@tripscout</a><a href="https://instagram.com/deserted.places" class="acc-chip" target="_blank">@deserted.places</a><a href="https://instagram.com/creativetravelcouples" class="acc-chip" target="_blank">@creativetravelcouples</a><a href="https://instagram.com/miami.explore" class="acc-chip" target="_blank">@miami.explore</a></div>
+    <div class="accounts-row"><a href="https://instagram.com/singapore.explore" class="acc-chip" target="_blank">@singapore.explore</a><a href="https://instagram.com/athens.explore" class="acc-chip highlight" target="_blank">@athens.explore</a><a href="https://instagram.com/lisbon.explore" class="acc-chip" target="_blank">@lisbon.explore</a><a href="https://instagram.com/phuket.explore" class="acc-chip" target="_blank">@phuket.explore</a><a href="https://instagram.com/capetown.explore" class="acc-chip" target="_blank">@capetown.explore</a><a href="https://instagram.com/positano.explore" class="acc-chip highlight" target="_blank">@positano.explore</a><a href="https://instagram.com/kyoto.explore" class="acc-chip" target="_blank">@kyoto.explore</a><a href="https://instagram.com/hawaii.explore" class="acc-chip" target="_blank">@hawaii.explore</a><a href="https://instagram.com/cancun.explore" class="acc-chip" target="_blank">@cancun.explore</a><a href="https://instagram.com/marrakech.explore" class="acc-chip highlight" target="_blank">@marrakech.explore</a><a href="https://instagram.com/prague.explore" class="acc-chip" target="_blank">@prague.explore</a><span class="acc-chip">+80 more</span><a href="https://instagram.com/singapore.explore" class="acc-chip" target="_blank">@singapore.explore</a><a href="https://instagram.com/athens.explore" class="acc-chip highlight" target="_blank">@athens.explore</a><a href="https://instagram.com/lisbon.explore" class="acc-chip" target="_blank">@lisbon.explore</a><a href="https://instagram.com/phuket.explore" class="acc-chip" target="_blank">@phuket.explore</a><a href="https://instagram.com/capetown.explore" class="acc-chip" target="_blank">@capetown.explore</a><a href="https://instagram.com/positano.explore" class="acc-chip highlight" target="_blank">@positano.explore</a><a href="https://instagram.com/kyoto.explore" class="acc-chip" target="_blank">@kyoto.explore</a><a href="https://instagram.com/hawaii.explore" class="acc-chip" target="_blank">@hawaii.explore</a><a href="https://instagram.com/cancun.explore" class="acc-chip" target="_blank">@cancun.explore</a><a href="https://instagram.com/marrakech.explore" class="acc-chip highlight" target="_blank">@marrakech.explore</a><a href="https://instagram.com/prague.explore" class="acc-chip" target="_blank">@prague.explore</a><span class="acc-chip">+80 more</span></div>
+  </div>
+  <div class="ig-stats-bar">
+    <div class="ig-stat"><div class="ig-stat-n">2×</div><div class="ig-stat-l">Size of entire travel industry combined</div></div>
+    <div class="ig-stat"><div class="ig-stat-n">9×</div><div class="ig-stat-l">Daily viral moments (1M+ plays)</div></div>
+    <div class="ig-stat"><div class="ig-stat-n">0</div><div class="ig-stat-l">Paid followers — 100% organic growth</div></div>
+  </div>
+</section>
+<section id="projects">
+  <div class="section-label">Selected Work</div>
+  <h2 class="section-h">The Work.</h2>
+  <div class="proj-grid">
+    <div class="proj-card"><div class="proj-num">01 /</div><span class="proj-tag">Social Architecture</span><h3 class="proj-h">TripScout Instagram Portfolio</h3><p class="proj-p">Architected and scaled TripScout's entire Instagram network from zero — 150+ destination and interest accounts now totalling 90M+ followers. AI-assisted trend detection identifies breakout destinations before they peak.</p><div class="proj-metrics"><div><div class="pm-val">90M+</div><div class="pm-l">Followers</div></div><div><div class="pm-val">4B+</div><div class="pm-l">Monthly Views</div></div><div><div class="pm-val">150+</div><div class="pm-l">Accounts</div></div></div></div>
+    <div class="proj-card"><div class="proj-num">02 /</div><span class="proj-tag">AI Operations</span><h3 class="proj-h">AI-Powered Content Engine</h3><p class="proj-p">Built and deployed an AI-first content operations system across TripScout's 150+ account portfolio. LLMs handle caption generation, hashtag optimization, and community responses at scale.</p><div class="proj-metrics"><div><div class="pm-val">3,000+</div><div class="pm-l">Sources Monitored</div></div><div><div class="pm-val">200+</div><div class="pm-l">Team Augmented</div></div></div></div>
+    <div class="proj-card"><div class="proj-num">03 /</div><span class="proj-tag">Social Commerce</span><h3 class="proj-h">@hotel Instagram Booking</h3><p class="proj-p">Part of TripScout's evolution into @hotel — the world's first Instagram-native hotel booking platform. DM any account → AI chatbot → exclusive 25–75% discounts on 10,000+ properties.</p><div class="proj-metrics"><div><div class="pm-val">75%</div><div class="pm-l">Max Discount</div></div><div><div class="pm-val">10K+</div><div class="pm-l">Properties</div></div></div></div>
+    <div class="proj-card"><div class="proj-num">04 /</div><span class="proj-tag">DMO Performance Marketing</span><h3 class="proj-h">TripScout for Destinations</h3><p class="proj-p">Performance social media for Destination Marketing Organizations worldwide. Combines TripScout's 90M+ owned audience with precision paid targeting to deliver guaranteed, measurable outcomes.</p><div class="proj-metrics"><div><div class="pm-val">Global</div><div class="pm-l">Reach</div></div><div><div class="pm-val">2×</div><div class="pm-l">Industry Average</div></div></div></div>
+    <div class="proj-card"><div class="proj-num">05 /</div><span class="proj-tag">Egypt · Owned Media</span><h3 class="proj-h">@uniquegypt</h3><p class="proj-p">Founded and built Egypt's premier travel and lifestyle Instagram platform. Full creator suite: brand partnerships, UGC content production, social media management, and influencer services.</p><div class="proj-metrics"><div><div class="pm-val">Egypt</div><div class="pm-l">#1 Travel Platform</div></div><div><div class="pm-val">AI</div><div class="pm-l">Production Stack</div></div></div></div>
+    <div class="proj-card"><div class="proj-num">06 /</div><span class="proj-tag">Agency · Microvisuals</span><h3 class="proj-h">Microvisuals</h3><p class="proj-p">Boutique marketing and social media agency deploying AI-first creative and strategy for global clients — Betahaus, BetahausX, Asia Berlin (Germany), and premium hotel brands in Bali.</p><div class="proj-metrics"><div><div class="pm-val">Global</div><div class="pm-l">Clients</div></div><div><div class="pm-val">AI-First</div><div class="pm-l">Operations</div></div></div></div>
+  </div>
+</section>
+<section id="clients">
+  <div class="section-label">Clients</div>
+  <h2 class="section-h">Trusted By.</h2>
+  <div class="clients-grid">
+    <div class="client-card"><img src="https://logo.clearbit.com/skyscanner.com" onerror="this.style.display='none'" alt="Skyscanner" style="display: none;"><span>Skyscanner</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/priceline.com" onerror="this.style.display='none'" alt="Priceline" style="display: none;"><span>Priceline</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/radissonhotels.com" onerror="this.style.display='none'" alt="Radisson Blu" style="display: none;"><span>Radisson Blu</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/marriott.com" onerror="this.style.display='none'" alt="Marriott" style="display: none;"><span>Marriott</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/trip.com" onerror="this.style.display='none'" alt="Journey.com" style="display: none;"><span>Journey.com</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/sony.com" onerror="this.style.display='none'" alt="Sony" style="display: none;"><span>Sony</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/disney.com" onerror="this.style.display='none'" alt="Disney" style="display: none;"><span>Disney</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/hopper.com" onerror="this.style.display='none'" alt="Hopper" style="display: none;"><span>Hopper</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/warnermusic.com" onerror="this.style.display='none'" alt="Warner Music" style="display: none;"><span>Warner Music</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/universalmusic.com" onerror="this.style.display='none'" alt="Universal" style="display: none;"><span>Universal</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/getyourguide.com" onerror="this.style.display='none'" alt="GetYourGuide" style="display: none;"><span>GetYourGuide</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/holidaypirates.com" onerror="this.style.display='none'" alt="Holiday Pirates" style="display: none;"><span>Holiday Pirates</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/miles.app" onerror="this.style.display='none'" alt="Miles" style="display: none;"><span>Miles</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/visitmalta.com" onerror="this.style.display='none'" alt="Visit Malta" style="display: none;"><span>Visit Malta</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/visitmaine.com" onerror="this.style.display='none'" alt="Visit Maine" style="display: none;"><span>Visit Maine</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/denver.org" onerror="this.style.display='none'" alt="Visit Denver" style="display: none;"><span>Visit Denver</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/visitflorida.com" onerror="this.style.display='none'" alt="Visit Florida" style="display: none;"><span>Visit Florida</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/interscope.com" onerror="this.style.display='none'" alt="Interscope Records" style="display: none;"><span>Interscope Records</span></div>
+    <div class="client-card"><img src="https://logo.clearbit.com/sftravel.com" onerror="this.style.display='none'" alt="SF Tourism" style="display: none;"><span>San Francisco Tourism</span></div>
+  </div>
+</section>
+<section id="contact">
+  <div class="section-label">Contact</div>
+  <h2 class="section-h">Let's Build.</h2>
+  <div class="contact-wrap">
+    <div>
+      <p class="contact-p">Whether you're a DMO looking to dominate organic social, a brand that needs an AI-powered growth engine, or a collaborator with a bold vision — let's talk.</p>
+      <p class="contact-p">Cairo-based. Operating globally.</p>
+      <div class="c-links">
+        <a href="https://instagram.com/darwishologist" class="c-link" target="_blank"><div class="c-link-l"><span class="c-link-icon"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></span><span class="c-link-t">@darwishologist</span></div><span class="c-link-arr">↗</span></a>
+        <a href="https://instagram.com/uniquegypt" class="c-link" target="_blank"><div class="c-link-l"><span class="c-link-icon"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></span><span class="c-link-t">@uniquegypt</span></div><span class="c-link-arr">↗</span></a>
+        <a href="https://instagram.com/microvisuals" class="c-link" target="_blank"><div class="c-link-l"><span class="c-link-icon"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></span><span class="c-link-t">@microvisuals</span></div><span class="c-link-arr">↗</span></a>
+        <a href="https://tripscout.com" class="c-link" target="_blank"><div class="c-link-l"><span class="c-link-icon"><svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-1 21.938C6.054 21.478 2 17.178 2 12c0-.344.018-.684.05-1.02L7 16v1c0 1.1.9 2 2 2v1.938zM17.9 19.4C17.64 18.57 16.88 18 16 18h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V9h2c1.1 0 2-.9 2-2V5.46C17.57 6.49 20 9.02 20 12c0 2.77-1.13 5.28-2.1 7.4z"></path></svg></span><span class="c-link-t">tripscout.com</span></div><span class="c-link-arr">↗</span></a>
+        <a href="https://linkedin.com/in/ahmeddarwish" class="c-link" target="_blank"><div class="c-link-l"><span class="c-link-icon"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg></span><span class="c-link-t">linkedin.com/in/ahmeddarwish</span></div><span class="c-link-arr">↗</span></a>
+      </div>
+    </div>
+    <form class="cf" onsubmit="event.preventDefault();this.innerHTML='&lt;div style=\'font-family:Space Mono,monospace;font-size:0.75rem;color:var(--y);padding:2rem;border:1px solid var(--border);\'&gt;[ MESSAGE SENT ✓ ]&lt;br&gt;&lt;br&gt;&lt;span style=\'color:#555;\'&gt;Will get back to you shortly.&lt;/span&gt;&lt;/div&gt;'">
+      <div><div class="cf-label">Name</div><input type="text" placeholder="Your name"></div>
+      <div><div class="cf-label">Email</div><input type="email" placeholder="your@email.com"></div>
+      <div><div class="cf-label">Message</div><textarea rows="5" placeholder="What are we building?"></textarea></div>
+      <button type="submit" class="cf-btn">[ Send Message → ]</button>
+    </form>
+  </div>
+</section>
+<footer>
+  <div class="f-logo">&gt; AHMED.DARWISH_</div>
+  <div class="f-copy">© 2026 · Cairo, Egypt · VP Digital Marketing · AI Operator</div>
+  <div class="f-copy">MICROVISUALS / @UNIQUEGYPT / TRIPSCOUT</div>
+</footer>
+<script>
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+if(cur){document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}animRing();document.querySelectorAll('a,button,.proj-card').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.style.width='6px';cur.style.height='6px';ring.style.width='50px';ring.style.height='50px';ring.style.borderColor='rgba(245,230,66,0.8)';});el.addEventListener('mouseleave',()=>{cur.style.width='12px';cur.style.height='12px';ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(245,230,66,0.4)';});});}
+function toggleMenu(){const nav=document.getElementById('main-nav');nav.classList.toggle('nav-mobile-open');document.getElementById('menu-btn').textContent=nav.classList.contains('nav-mobile-open')?'&#10005; CLOSE':'&#9776; MENU';}
+function closeMenu(){const nav=document.getElementById('main-nav');nav.classList.remove('nav-mobile-open');document.getElementById('menu-btn').textContent='&#9776; MENU';}
+</script>
+
+<div class="cgw-ext" data-ext-id="pdnenlnelpdomajfejgapbdpmjkfpjkp"></div><cgw-writer-modal data-wxt-shadow-root="" class="cgw_main_container" id="jw-main-container-id"></cgw-writer-modal><button id="cgw_action_btn" tabindex="-1" style="position: absolute; top: -9999px; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"></button><div id="claude-static-indicator-container" style="position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); align-items: center; justify-content: center; padding: 6px 6px 6px 16px; background: rgb(250, 249, 245); border: 0.5px solid rgba(31, 30, 29, 0.3); border-radius: 14px; box-shadow: rgba(0, 0, 0, 0.15) 0px 40px 80px 0px; z-index: 2147483647; pointer-events: none; white-space: nowrap; user-select: none; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif;">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 16px; height: 16px; display: inline-block; vertical-align: middle; flex-shrink: 0; margin-right: 8px;">
+        <path d="M3.13946 10.6399L6.28757 8.87462L6.37405 8.73821L6.28757 8.6339H6.13189L5.60432 8.6018L3.80541 8.55366L2.24865 8.48947L0.735135 8.40923H0.492973L0.354595 8.32899L0.181622 8.1685L0.0345946 8.01605L0 7.85557L0.0345946 7.62287L0.138378 7.44634L0.224865 7.40622H0.354595L0.812973 7.44634L1.82486 7.51856L3.34703 7.62287L4.44541 7.68706L6.08 7.85557H6.33946L6.37405 7.75125L6.28757 7.68706L6.21838 7.62287L4.64432 6.55567L2.94054 5.4323L2.04973 4.78235L1.57405 4.45336L1.33189 4.14845L1.22811 3.92377L1.17622 3.69107L1.22811 3.47442L1.33189 3.28185L1.46162 3.13741L1.66054 2.99298H1.87676L2.24865 3.0331L2.39568 3.07322L2.99243 3.53059L4.26378 4.51755L5.92432 5.73721L6.16649 5.93781H6.27892V5.82548L6.16649 5.64092L5.26703 4.01204L4.30703 2.35105L3.87459 1.66098L3.76216 1.25176C3.7391 1.16082 3.69297 0.977332 3.69297 0.970913V0.762287L3.77946 0.505517L3.93513 0.240722L4.18595 0.0882648L4.4627 0H4.67892L4.83459 0.0240722L5.12865 0.0882648L5.4054 0.328987L5.82054 1.27583L6.48649 2.76028L7.52432 4.78235L7.82703 5.38415L7.99135 5.93781L8.05189 6.10632H8.15567V6.01003L8.24216 4.87061L8.39784 3.47442L8.55351 1.67703L8.6054 1.17151L8.85622 0.561685L8.9773 0.417252L9.21946 0.232698H9.35784L9.74703 0.417252L9.97189 0.665998L10.067 0.874624L10.0238 1.17151L9.83351 2.40722L9.46162 4.34102L9.21946 5.64092H9.35784L9.52216 5.47242L10.1795 4.60582L11.2778 3.22568L11.7622 2.68004L12.333 2.07823L12.6962 1.78937L13.0162 1.67703L13.3881 1.78937L13.7168 2.06219L13.8897 2.54363V2.76028L13.6649 3.32197L12.9557 4.22066L12.3676 4.98295L12.0043 5.56871L11.0011 7.02106V7.08526H11.1741L13.0768 6.67603L14.1059 6.49147L15.3341 6.28285L15.5762 6.34704L15.8876 6.53962L15.9481 6.80441L15.8876 7.12538L15.7319 7.34203L14.4173 7.66299L12.8778 7.97593L10.5854 8.51559C10.5705 8.51909 10.56 8.53236 10.56 8.54764C10.56 8.56468 10.573 8.57891 10.59 8.58044L11.6238 8.67402L12.0649 8.69809H13.1459L15.1611 8.85055L15.6886 9.19559L15.9481 9.39619L16 9.62086L15.9481 9.94985L15.8443 10.1023L15.4119 10.3029L15.1351 10.3591L14.0454 10.1023L11.4941 9.49248L10.6205 9.27583H10.4995V9.34804L11.2259 10.0622L12.5665 11.2658L14.2357 12.8225L14.3222 13.0953V13.2076L14.1059 13.5125L13.9243 13.5206L13.8811 13.4804L12.4108 12.3731L12.2984 12.325L11.84 11.8756L10.56 10.7924H10.4735V10.9047L10.7676 11.338L12.333 13.6891L12.4108 14.4112L12.2984 14.6439L11.8919 14.7884L11.667 14.7563L11.4508 14.7081L11.2605 14.5396L10.5254 13.4162L9.5827 11.9719L8.82162 10.672H8.79342C8.76039 10.672 8.73278 10.6972 8.7297 10.73L8.27676 15.5667L8.06919 15.8154L7.6454 16H7.58486L7.17838 15.6951L6.96216 15.1976L7.17838 14.2106L7.43784 12.9268L7.6454 11.9077L7.83567 10.6399L7.95187 10.2164C7.9548 10.2057 7.95069 10.1944 7.94161 10.1881C7.91157 10.1672 7.87034 10.1741 7.84878 10.2037L6.89297 11.5145L5.44 13.4804L4.28973 14.7081L4.01297 14.8205H3.80541L3.5373 14.5717V14.4514L3.58054 14.1304L3.84865 13.7372L5.44 11.7151L6.4 10.4554L7.01872 9.73222C7.04511 9.70139 7.04245 9.65523 7.0127 9.62763C7.00333 9.61894 6.98925 9.61773 6.97854 9.62471L2.75027 12.3811L1.99784 12.4774L1.66919 12.1725L1.71243 11.675L1.86811 11.5145L3.13946 10.6399Z" fill="#D97757"></path>
+      </svg>
+      <span style="vertical-align: middle; color: #141413; font-size: 14px; display: inline-block;">Claude is active in this tab group</span>
+      <div style="display: inline-block; width: 0.5px; height: 32px; background: rgba(31, 30, 29, 0.15); margin: 0 8px; vertical-align: middle;"></div>
+      <button id="claude-static-chat-button" style="position: relative; display: inline-flex; align-items: center; justify-content: center; padding: 6px; background: transparent; border: none; cursor: pointer; pointer-events: auto; vertical-align: middle; width: 32px; height: 32px; border-radius: 8px; transition: background 0.2s;">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="#141413" xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px; display: block;">
+          <path d="M10 2.5C14.1421 2.5 17.5 5.85786 17.5 10C17.5 14.1421 14.1421 17.5 10 17.5H3C2.79779 17.5 2.61549 17.3782 2.53809 17.1914C2.4607 17.0046 2.50349 16.7895 2.64648 16.6465L4.35547 14.9365C3.20124 13.6175 2.5 11.8906 2.5 10C2.5 5.85786 5.85786 2.5 10 2.5ZM10 3.5C6.41015 3.5 3.5 6.41015 3.5 10C3.5 11.7952 4.22659 13.4199 5.40332 14.5967L5.46582 14.6729C5.52017 14.7544 5.5498 14.8508 5.5498 14.9502C5.5498 15.0828 5.49709 15.2099 5.40332 15.3037L4.20703 16.5H10C13.5899 16.5 16.5 13.5899 16.5 10C16.5 6.41015 13.5899 3.5 10 3.5ZM13.29 9.30371C13.3986 9.05001 13.6925 8.93174 13.9463 9.04004C14.2 9.14863 14.3183 9.44253 14.21 9.69629C13.8506 10.536 13.1645 11.25 12.25 11.25C11.6372 11.25 11.128 10.9289 10.75 10.4648C10.372 10.9289 9.86276 11.25 9.25 11.25C8.63724 11.25 8.12801 10.9289 7.75 10.4648C7.37198 10.9289 6.86276 11.25 6.25 11.25C5.97386 11.25 5.75 11.0261 5.75 10.75C5.75 10.4739 5.97386 10.25 6.25 10.25C6.58764 10.25 7.00448 9.97056 7.29004 9.30371L7.32422 9.2373C7.41431 9.09121 7.5749 9 7.75 9C7.9501 9 8.13123 9.11975 8.20996 9.30371L8.32227 9.53516C8.59804 10.0359 8.95442 10.25 9.25 10.25C9.58764 10.25 10.0045 9.97056 10.29 9.30371L10.3242 9.2373C10.4143 9.09121 10.5749 9 10.75 9C10.9501 9 11.1312 9.11975 11.21 9.30371L11.3223 9.53516C11.598 10.0359 11.9544 10.25 12.25 10.25C12.5876 10.25 13.0045 9.97056 13.29 9.30371Z"></path>
+        </svg>
+        <span id="claude-static-chat-tooltip" style="position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); padding: 6px 12px; background: #30302E; color: #FAF9F5; border-radius: 6px; font-size: 12px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Open chat</span>
+      </button>
+      <button id="claude-static-close-button" style="position: relative; display: inline-flex; align-items: center; justify-content: center; padding: 6px; background: transparent; border: none; cursor: pointer; pointer-events: auto; vertical-align: middle; width: 32px; height: 32px; margin-left: 4px; border-radius: 8px; transition: background 0.2s;">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px; display: block;">
+          <path d="M15.1464 4.14642C15.3417 3.95121 15.6582 3.95118 15.8534 4.14642C16.0486 4.34168 16.0486 4.65822 15.8534 4.85346L10.7069 9.99997L15.8534 15.1465C16.0486 15.3417 16.0486 15.6583 15.8534 15.8535C15.6826 16.0244 15.4186 16.0461 15.2245 15.918L15.1464 15.8535L9.99989 10.707L4.85338 15.8535C4.65813 16.0486 4.34155 16.0486 4.14634 15.8535C3.95115 15.6583 3.95129 15.3418 4.14634 15.1465L9.29286 9.99997L4.14634 4.85346C3.95129 4.65818 3.95115 4.34162 4.14634 4.14642C4.34154 3.95128 4.65812 3.95138 4.85338 4.14642L9.99989 9.29294L15.1464 4.14642Z" fill="#141413"></path>
+        </svg>
+        <span id="claude-static-close-tooltip" style="position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); padding: 6px 12px; background: #30302E; color: #FAF9F5; border-radius: 6px; font-size: 12px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Dismiss</span>
+      </button>
+    </div></body></html>
