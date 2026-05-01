@@ -1,5 +1,7 @@
 [build]
-  publish = "/"
+  publish = "."
+  command = "echo 'No build needed'"
 
 [build.environment]
   NODE_VERSION = "20"
+  NPM_FLAGS = "--no-optional"
